@@ -1,6 +1,7 @@
 package com.prince.findthemischief.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -40,6 +41,7 @@ fun GoldFrameCard(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(horizontal = 28.dp, vertical = 32.dp),
     horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     Column(
@@ -52,6 +54,7 @@ fun GoldFrameCard(
             }
             .padding(contentPadding),
         horizontalAlignment = horizontalAlignment,
+        verticalArrangement = verticalArrangement,
         content = content,
     )
 }

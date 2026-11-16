@@ -61,7 +61,6 @@
     <string name="setup_last_lie_title">The Trickster\'s last lie</string>
     <string name="setup_last_lie_subtitle">If banished, the Trickster can still win by guessing the Truth.</string>
     <string name="setup_begin">Begin the mischief</string>
-    <string name="setup_begin_not_ready">The fates are set. The reveal arrives in Phase 5.</string>
     <string name="setup_problem_too_few">At least %1$d players are needed.</string>
     <string name="setup_problem_too_many">No more than %1$d players.</string>
     <plurals name="setup_problem_blank">
@@ -70,6 +69,42 @@
     </plurals>
     <string name="setup_problem_duplicate">Two players are called \u201c%1$s\u201d. Make the names different.</string>
     <string name="setup_problem_no_categories">Choose at least one category.</string>
+
+    <!-- Pass the phone -->
+    <string name="pass_position">Player %1$d of %2$d</string>
+    <string name="pass_title">Pass the phone to</string>
+    <string name="pass_look_away">Everyone else, look away.</string>
+    <string name="pass_reveal_button">I am %1$s, reveal my fate</string>
+
+    <!-- Card -->
+    <string name="card_only_you">Only %1$s may look.</string>
+    <string name="card_hold_hint">Press and hold the stone to reveal your fate</string>
+    <string name="card_tap_hint">Tap the stone to reveal your fate. Tap again to hide it.</string>
+    <string name="card_truth_label">The Truth is</string>
+    <string name="card_trickster_you_are">You are the</string>
+    <string name="card_trickster_title">Trickster</string>
+    <string name="card_trickster_motto">Blend in. Lie well.</string>
+    <string name="card_whisper_label">A whisper reaches you:</string>
+    <string name="card_next_player">Next player</string>
+    <string name="card_seal">Seal the fates</string>
+    <string name="card_a11y_reveal">reveal or hide your fate</string>
+    <string name="card_a11y_hidden">Your fate is hidden</string>
+    <string name="card_a11y_shown">Your fate is showing</string>
+
+    <!-- All fates sealed -->
+    <string name="sealed_title">All fates are sealed.</string>
+    <string name="sealed_body">Place the phone where everyone can see it. The Telling begins.</string>
+    <string name="sealed_begin_telling">Begin the Telling</string>
+
+    <!-- Abandon -->
+    <string name="abandon_title">Abandon the game?</string>
+    <string name="abandon_body">The Truth and the Tricksters will be lost.</string>
+    <string name="abandon_confirm">Abandon</string>
+    <string name="abandon_keep_playing">Keep playing</string>
+
+    <!-- Until Phases 6–7 -->
+    <string name="next_phases_body">The Telling, the Judgement and the results arrive in the next phases.</string>
+    <string name="next_phases_end">End this game</string>
 
     <!-- Settings (built in Phase 8) -->
     <string name="settings_title">Settings</string>

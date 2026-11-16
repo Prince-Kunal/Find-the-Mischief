@@ -1,5 +1,6 @@
 package com.prince.findthemischief.game.domain
 
+import kotlinx.serialization.Serializable
 import kotlin.math.max
 
 // Pure Kotlin: no Android imports. Shared by the Setup screen and (Phase 4) the engine.
@@ -11,6 +12,7 @@ enum class WhisperLevel { Easy, Medium, Hard }
 enum class TellingTimer(val seconds: Int) { Off(0), Seconds30(30), Seconds60(60), Seconds90(90) }
 
 /** A validated, ready-to-play setup. Build one with [SetupRules.validate]. */
+@Serializable
 data class GameSetup(
     val playerNames: List<String>,
     val tricksterCount: Int,

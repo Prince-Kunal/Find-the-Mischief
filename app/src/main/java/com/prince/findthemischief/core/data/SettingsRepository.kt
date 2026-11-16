@@ -39,11 +39,36 @@ data class SavedSetup(
     val lastLieEnabled: Boolean = false,
 )
 
+/** How a card is revealed: shown only while a finger is held down, or flipped with a tap. */
+enum class RevealMode { Hold, Tap }
+
+/** App-wide preferences (the Settings screen, Phase 8). */
+data class AppPreferences(
+    val soundEnabled: Boolean = true,
+    val revealMode: RevealMode = RevealMode.Hold,
+)
+
 class SettingsRepository(private val dataStore: DataStore<Preferences>) {
 
-    val savedSetup: Flow<SavedSetup> = dataStore.data
+    private val safeData: Flow<Preferences> = dataStore.data
         .catch { e -> if (e is IOException) emit(emptyPreferences()) else throw e }
-        .map { it.toSavedSetup() }
+
+    val appPreferences: Flow<AppPreferences> = safeData.map {
+        AppPreferences(
+            soundEnabled = it[Keys.SOUND_ENABLED] ?: true,
+            revealMode = enumOrDefault(it[Keys.REVEAL_MODE], RevealMode.Hold),
+        )
+    }
+
+    suspend fun setSoundEnabled(enabled: Boolean) {
+        dataStore.edit { it[Keys.SOUND_ENABLED] = enabled }
+    }
+
+    suspend fun setRevealMode(mode: RevealMode) {
+        dataStore.edit { it[Keys.REVEAL_MODE] = mode.name }
+    }
+
+    val savedSetup: Flow<SavedSetup> = safeData.map { it.toSavedSetup() }
 
     suspend fun saveSetup(setup: SavedSetup) {
         dataStore.edit { prefs ->
@@ -83,5 +108,7 @@ class SettingsRepository(private val dataStore: DataStore<Preferences>) {
         val WHISPER_LEVEL = stringPreferencesKey("setup_whisper_level")
         val TELLING_TIMER = stringPreferencesKey("setup_telling_timer")
         val LAST_LIE = booleanPreferencesKey("setup_last_lie")
+        val SOUND_ENABLED = booleanPreferencesKey("sound_enabled")
+        val REVEAL_MODE = stringPreferencesKey("reveal_mode")
     }
 }

@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- The "phone has changed hands" buzz. A normal permission: granted at install, no prompt. -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:name=".MischiefApp"
         android:allowBackup="true"

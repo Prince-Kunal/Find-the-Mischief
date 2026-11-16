@@ -30,10 +30,20 @@ class GameViewModelTest {
     @After
     fun tearDown() = Dispatchers.resetMain()
 
+    /** Records feedback calls instead of making sounds. */
+    private class RecordingFeedback : GameFeedback {
+        var passes = 0
+        var reveals = 0
+        override fun phonePassed() { passes++ }
+        override fun cardRevealed() { reveals++ }
+    }
+
+    private val feedback = RecordingFeedback()
+
     private fun viewModel(setup: GameSetup = EngineTestData.setup(players = 3)): GameViewModel {
         val json = Json.encodeToString(WordBank(1, EngineTestData.categories))
         val words = WordRepository(readJson = { json }, ioDispatcher = Dispatchers.Unconfined)
-        return GameViewModel(setup, MischiefEngine(Random(8)), words)
+        return GameViewModel(setup, MischiefEngine(Random(8)), words, feedback)
     }
 
     private val GameViewModel.state get() = uiState.value
@@ -82,5 +92,27 @@ class GameViewModelTest {
         vm.onRevealCard()
         vm.onPlayAgain()
         assertEquals(1, (vm.state as GameUiState.Pass).position)
+    }
+
+    @Test
+    fun `every real Next player press chimes and buzzes exactly once`() {
+        val vm = viewModel()
+        vm.onNextPlayer() // on a Pass screen: ignored, so no chime
+        assertEquals(0, feedback.passes)
+        repeat(3) {
+            vm.onRevealCard()
+            vm.onNextPlayer()
+            vm.onNextPlayer() // double tap: second press lands on a Pass screen and is ignored
+        }
+        assertEquals(3, feedback.passes)
+        assertEquals(GameUiState.AllSealed, vm.state)
+    }
+
+    @Test
+    fun `a card glowing open asks for the reveal sound`() {
+        val vm = viewModel()
+        vm.onRevealCard()
+        vm.onCardRevealed()
+        assertEquals(1, feedback.reveals)
     }
 }

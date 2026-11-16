@@ -57,4 +57,14 @@ class SettingsRepositoryTest {
         withRepository { it.saveSetup(SavedSetup(playerNames = names)) }
         withRepository { assertEquals(names, it.savedSetup.first().playerNames) }
     }
+
+    @Test
+    fun `sound and reveal mode default to on and hold, and survive a restart`() {
+        withRepository { assertEquals(AppPreferences(), it.appPreferences.first()) }
+        withRepository {
+            it.setSoundEnabled(false)
+            it.setRevealMode(RevealMode.Tap)
+        }
+        withRepository { assertEquals(AppPreferences(soundEnabled = false, revealMode = RevealMode.Tap), it.appPreferences.first()) }
+    }
 }
