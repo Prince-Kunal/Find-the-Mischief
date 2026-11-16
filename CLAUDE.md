@@ -35,6 +35,13 @@ Kotlin · Jetpack Compose + Material 3 · single Activity · MVVM (ViewModel + `
 - Every screen sits inside `MischiefBackground` and handles insets (`safeDrawingPadding()`).
 - Pass-the-phone safety (Phase 5): never show a card without going through that player's Pass screen; no animation may bring a card into view; `FLAG_SECURE` and back-blocking on reveal screens.
 
+## Game rule decisions (confirmed with the user)
+- One Trickster: a single banishment ends the game (Trickster banished → "Mischief found!", Honest banished → "The Trickster prevails.").
+- Several Tricksters: if a banishment doesn't end the game, play returns to a **new Telling round** (same Truth, banished players out), then another Judgement. Ends when all Tricksters are out, or Tricksters ≥ remaining Honest.
+- "The Trickster's last lie" applies **only to the final Trickster** banished. Guess matching ignores case and surrounding spaces.
+- The Telling never starts with a Trickster; each round picks a new random Honest starter.
+- Words don't repeat within an app session until the selected pool runs out (`MischiefEngine` lives in `AppContainer`), and never back-to-back.
+
 ## Theme
 - Dark-only Material 3, no dynamic colour. Use the named colours in `ui/theme/Color.kt`, never raw hex in screens:
   NearBlack `#0B0F0D` (background) · DeepEmerald `#0F3D2E` (surface) · MischiefGreen `#2E8B57` (primary) · OldGold `#C9A227` (accent) · Parchment `#E8DFC8` (text) · BloodRed `#8B1E1E` (error).

@@ -4,6 +4,7 @@ import android.content.Context
 import com.prince.findthemischief.core.data.SettingsRepository
 import com.prince.findthemischief.core.data.settingsDataStore
 import com.prince.findthemischief.game.data.WordRepository
+import com.prince.findthemischief.game.domain.MischiefEngine
 
 /**
  * Manual dependency injection: the one place that creates the app's long-lived objects
@@ -23,4 +24,7 @@ class AppContainer(context: Context) {
     val settingsRepository: SettingsRepository by lazy {
         SettingsRepository(appContext.settingsDataStore)
     }
+
+    /** One engine per app session, so words aren't repeated across games until the pool runs out. */
+    val mischiefEngine: MischiefEngine by lazy { MischiefEngine() }
 }
