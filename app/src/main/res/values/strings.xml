@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Find the Mischief</string>
+
+    <!-- Home -->
+    <string name="home_play">Play</string>
+    <string name="home_how_to_play">How to play</string>
+
+    <!-- Phase 0 placeholder (removed in Phase 1) -->
+    <string name="placeholder_card_title">The Trickster stirs…</string>
+    <string name="placeholder_card_body">The board is being carved. Play arrives in the next phase.</string>
+    <string name="placeholder_next_phase">Not yet — the runes are still being carved.</string>
 </resources>
