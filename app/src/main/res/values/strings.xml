@@ -1,12 +1,35 @@
 <resources>
     <string name="app_name">Find the Mischief</string>
 
+    <!-- Common -->
+    <string name="action_back">Back</string>
+
     <!-- Home -->
+    <string name="home_tagline">One among you is lying.</string>
     <string name="home_play">Play</string>
     <string name="home_how_to_play">How to play</string>
+    <string name="home_settings">Settings</string>
 
-    <!-- Phase 0 placeholder (removed in Phase 1) -->
-    <string name="placeholder_card_title">The Trickster stirs…</string>
-    <string name="placeholder_card_body">The board is being carved. Play arrives in the next phase.</string>
-    <string name="placeholder_next_phase">Not yet — the runes are still being carved.</string>
+    <!-- How to play -->
+    <string name="rules_pass_title">Pass the phone</string>
+    <string name="rules_pass_body">Gather your group around one phone. Pass it from hand to hand. Each player reveals their fate in secret, then passes it on. A chime sounds every time it changes hands.</string>
+    <string name="rules_truth_title">The Truth</string>
+    <string name="rules_truth_body">The Honest all see the same secret word: the Truth. Keep it to yourself.</string>
+    <string name="rules_trickster_title">The Trickster</string>
+    <string name="rules_trickster_body">One player (or more, in bigger groups) is the Trickster and does not know the Truth. The Trickster may hear a Whisper: a hint that can be easy, medium or hard to use.</string>
+    <string name="rules_telling_title">The Telling</string>
+    <string name="rules_telling_body">Going around the circle, everyone says one word linked to the Truth. The Honest must prove they know it without giving it away. The Trickster must blend in. Lie well.</string>
+    <string name="rules_judgement_title">The Judgement</string>
+    <string name="rules_judgement_body">Debate, accuse, defend. Then the group chooses one player to banish.</string>
+    <string name="rules_victory_title">Who wins</string>
+    <string name="rules_victory_body">Banish the Trickster and it\'s Mischief found! Banish one of the Honest and the Trickster prevails. With more than one Trickster, the Judgement goes on until every Trickster is banished, or the Tricksters equal the Honest in number. With the optional rule \"The Trickster\'s last lie\", a banished Trickster can still win by guessing the Truth.</string>
+    <string name="rules_close">I understand</string>
+
+    <!-- Setup (built in Phase 3) -->
+    <string name="setup_title">Setup</string>
+    <string name="setup_not_built">Players, Tricksters, categories and Whispers will be chosen here.</string>
+
+    <!-- Settings (built in Phase 8) -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_not_built">Sound and reveal style will be set here.</string>
 </resources>
