@@ -3,6 +3,8 @@
 
     <!-- Common -->
     <string name="action_back">Back</string>
+    <string name="state_on">On</string>
+    <string name="state_off">Off</string>
 
     <!-- Home -->
     <string name="home_tagline">One among you is lying.</string>
@@ -25,9 +27,49 @@
     <string name="rules_victory_body">Banish the Trickster and it\'s Mischief found! Banish one of the Honest and the Trickster prevails. With more than one Trickster, the Judgement goes on until every Trickster is banished, or the Tricksters equal the Honest in number. With the optional rule \"The Trickster\'s last lie\", a banished Trickster can still win by guessing the Truth.</string>
     <string name="rules_close">I understand</string>
 
-    <!-- Setup (built in Phase 3) -->
+    <!-- Setup -->
     <string name="setup_title">Setup</string>
-    <string name="setup_not_built">Players, Tricksters, categories and Whispers will be chosen here.</string>
+    <string name="setup_players_title">Players (%1$d)</string>
+    <string name="setup_players_subtitle">The phone passes in this order.</string>
+    <string name="setup_player_placeholder">Player %1$d</string>
+    <string name="setup_move_up">Move %1$s up</string>
+    <string name="setup_move_down">Move %1$s down</string>
+    <string name="setup_remove_player">Remove %1$s</string>
+    <string name="setup_add_player">Add player</string>
+    <string name="setup_players_full">The circle is full (20)</string>
+    <string name="setup_tricksters_title">Tricksters</string>
+    <string name="setup_tricksters_limit">Up to %1$d with %2$d players</string>
+    <string name="setup_tricksters_count">%1$d Tricksters</string>
+    <string name="setup_tricksters_fewer">Fewer Tricksters</string>
+    <string name="setup_tricksters_more">More Tricksters</string>
+    <string name="setup_categories_title">Categories</string>
+    <string name="setup_categories_all">Select all</string>
+    <string name="setup_categories_none">Clear all</string>
+    <string name="setup_whisper_title">Whispers</string>
+    <string name="setup_whisper_subtitle">Give the Trickster a hint</string>
+    <string name="setup_whisper_easy">Easy</string>
+    <string name="setup_whisper_medium">Medium</string>
+    <string name="setup_whisper_hard">Hard</string>
+    <string name="setup_whisper_easy_desc">A close clue. Blending in is easy.</string>
+    <string name="setup_whisper_medium_desc">The category or a broader clue.</string>
+    <string name="setup_whisper_hard_desc">A vague clue. The Trickster must lie well.</string>
+    <string name="setup_whisper_off_desc">No Whisper. The Trickster knows nothing at all.</string>
+    <string name="setup_timer_title">The Telling timer</string>
+    <string name="setup_timer_subtitle">Time limit for each round of clues</string>
+    <string name="setup_timer_off">Off</string>
+    <string name="setup_timer_seconds">%1$ds</string>
+    <string name="setup_last_lie_title">The Trickster\'s last lie</string>
+    <string name="setup_last_lie_subtitle">If banished, the Trickster can still win by guessing the Truth.</string>
+    <string name="setup_begin">Begin the mischief</string>
+    <string name="setup_begin_not_ready">The fates are set. The reveal arrives in Phase 5.</string>
+    <string name="setup_problem_too_few">At least %1$d players are needed.</string>
+    <string name="setup_problem_too_many">No more than %1$d players.</string>
+    <plurals name="setup_problem_blank">
+        <item quantity="one">1 player has no name.</item>
+        <item quantity="other">%1$d players have no name.</item>
+    </plurals>
+    <string name="setup_problem_duplicate">Two players are called \u201c%1$s\u201d. Make the names different.</string>
+    <string name="setup_problem_no_categories">Choose at least one category.</string>
 
     <!-- Settings (built in Phase 8) -->
     <string name="settings_title">Settings</string>

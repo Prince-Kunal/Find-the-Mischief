@@ -15,3 +15,5 @@ val DeepEmeraldLight = Color(0xFF15503D)  // raised surfaces, pressed states
 val ParchmentMuted = Color(0xFFB8AF98)    // secondary text on dark
 val OldGoldDim = Color(0xFF7A6420)        // subtle gold lines and outlines
 val GlowGreen = Color(0xFF3FBF78)         // smoke / glow effects (used at low alpha)
+// Blood red is too dark to read as text on near-black, so error *text* and outlines use this lighter red.
+val BloodRedLight = Color(0xFFE57373)
