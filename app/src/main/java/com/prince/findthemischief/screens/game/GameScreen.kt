@@ -14,6 +14,7 @@ import com.prince.findthemischief.game.domain.GameSetup
 import com.prince.findthemischief.screens.reveal.CardScreen
 import com.prince.findthemischief.screens.reveal.PassScreen
 import com.prince.findthemischief.screens.reveal.SealedScreen
+import com.prince.findthemischief.screens.telling.TellingScreen
 import com.prince.findthemischief.ui.components.KeepScreenOn
 import com.prince.findthemischief.ui.components.MischiefBackground
 import com.prince.findthemischief.ui.components.SecureWindow
@@ -27,6 +28,7 @@ fun GameScreen(setup: GameSetup, onExit: () -> Unit) {
     val viewModel: GameViewModel = viewModel(factory = GameViewModel.factory(setup))
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val revealMode by viewModel.revealMode.collectAsStateWithLifecycle()
+    val timer by viewModel.timer.collectAsStateWithLifecycle()
     var confirmAbandon by rememberSaveable { mutableStateOf(false) }
 
     KeepScreenOn()
@@ -45,8 +47,15 @@ fun GameScreen(setup: GameSetup, onExit: () -> Unit) {
             onNext = viewModel::onNextPlayer,
         )
         GameUiState.AllSealed -> SealedScreen(onBeginTelling = viewModel::onBeginTelling)
-        // Built in Phases 6 and 7.
-        is GameUiState.Telling,
+        is GameUiState.Telling -> TellingScreen(
+            state = s,
+            timer = timer,
+            onToggleTimer = viewModel::onToggleTimer,
+            onResetTimer = viewModel::onResetTimer,
+            onAnotherRound = viewModel::onAnotherTellingRound,
+            onBeginJudgement = viewModel::onBeginJudgement,
+        )
+        // Built in Phase 7.
         is GameUiState.Judgement,
         is GameUiState.LastLie,
         is GameUiState.Result -> NextPhasesScreen(onEndGame = onExit)

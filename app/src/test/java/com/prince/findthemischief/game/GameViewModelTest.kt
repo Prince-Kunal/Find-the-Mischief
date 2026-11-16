@@ -6,6 +6,7 @@ import com.prince.findthemischief.game.domain.EngineTestData
 import com.prince.findthemischief.game.domain.GameSetup
 import com.prince.findthemischief.game.domain.MischiefEngine
 import com.prince.findthemischief.game.domain.RoleCard
+import com.prince.findthemischief.game.domain.TellingTimer
 import com.prince.findthemischief.game.domain.Team
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15,6 +16,7 @@ import kotlinx.coroutines.test.setMain
 import kotlinx.serialization.json.Json
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -24,8 +26,10 @@ import kotlin.random.Random
 class GameViewModelTest {
 
     // ViewModels launch work on the "main" thread; in a plain JVM test we swap in a test dispatcher.
+    private val dispatcher = UnconfinedTestDispatcher()
+
     @Before
-    fun setUp() = Dispatchers.setMain(UnconfinedTestDispatcher())
+    fun setUp() = Dispatchers.setMain(dispatcher)
 
     @After
     fun tearDown() = Dispatchers.resetMain()
@@ -34,8 +38,10 @@ class GameViewModelTest {
     private class RecordingFeedback : GameFeedback {
         var passes = 0
         var reveals = 0
+        var timeUps = 0
         override fun phonePassed() { passes++ }
         override fun cardRevealed() { reveals++ }
+        override fun timeUp() { timeUps++ }
     }
 
     private val feedback = RecordingFeedback()
@@ -114,5 +120,83 @@ class GameViewModelTest {
         vm.onRevealCard()
         vm.onCardRevealed()
         assertEquals(1, feedback.reveals)
+    }
+
+    // --- The Telling timer (virtual time: no real waiting) ---
+
+    private fun timedViewModel(timer: TellingTimer = TellingTimer.Seconds30) =
+        viewModel(EngineTestData.setup(players = 3).copy(tellingTimer = timer)).apply {
+            repeat(3) { onRevealCard(); onNextPlayer() }
+            onBeginTelling()
+        }
+
+    private fun passSeconds(seconds: Int) {
+        dispatcher.scheduler.advanceTimeBy(seconds * 1_000L)
+        dispatcher.scheduler.runCurrent()
+    }
+
+    @Test
+    fun `timer waits for Start, counts down, then sounds once at zero`() {
+        val vm = timedViewModel()
+        assertEquals(TimerUiState(30), vm.timer.value)
+        passSeconds(5)
+        assertEquals("doesn't start by itself", 30, vm.timer.value.remainingSeconds)
+
+        vm.onToggleTimer()
+        passSeconds(10)
+        assertEquals(20, vm.timer.value.remainingSeconds)
+        assertTrue(vm.timer.value.running)
+
+        passSeconds(20)
+        assertTrue(vm.timer.value.finished)
+        assertFalse(vm.timer.value.running)
+        assertEquals(1, feedback.timeUps)
+        passSeconds(10)
+        assertEquals(1, feedback.timeUps)
+    }
+
+    @Test
+    fun `pause freezes the timer and resume continues`() {
+        val vm = timedViewModel()
+        vm.onToggleTimer()
+        passSeconds(5)
+        vm.onToggleTimer() // pause
+        passSeconds(10)
+        assertEquals(25, vm.timer.value.remainingSeconds)
+        vm.onToggleTimer() // resume
+        passSeconds(5)
+        assertEquals(20, vm.timer.value.remainingSeconds)
+    }
+
+    @Test
+    fun `another round resets the timer`() {
+        val vm = timedViewModel()
+        vm.onToggleTimer()
+        passSeconds(12)
+        vm.onAnotherTellingRound()
+        assertEquals(TimerUiState(30), vm.timer.value)
+        passSeconds(10)
+        assertEquals("stopped, not still running", 30, vm.timer.value.remainingSeconds)
+        assertEquals(2, (vm.state as GameUiState.Telling).round)
+    }
+
+    @Test
+    fun `beginning the Judgement stops the timer`() {
+        val vm = timedViewModel()
+        vm.onToggleTimer()
+        passSeconds(5)
+        vm.onBeginJudgement()
+        passSeconds(60)
+        assertEquals(0, feedback.timeUps)
+    }
+
+    @Test
+    fun `with the timer off, Start does nothing`() {
+        val vm = timedViewModel(TellingTimer.Off)
+        vm.onToggleTimer()
+        passSeconds(60)
+        assertFalse(vm.timer.value.enabled)
+        assertFalse(vm.timer.value.running)
+        assertEquals(0, feedback.timeUps)
     }
 }

@@ -6,6 +6,18 @@ import com.prince.findthemischief.game.domain.ResultReason
 import com.prince.findthemischief.game.domain.RoleCard
 import com.prince.findthemischief.game.domain.Team
 
+/** The Telling countdown. [totalSeconds] is 0 when the timer is turned off. */
+data class TimerUiState(
+    val totalSeconds: Int,
+    val remainingSeconds: Int = totalSeconds,
+    val running: Boolean = false,
+) {
+    val enabled: Boolean get() = totalSeconds > 0
+    val finished: Boolean get() = enabled && remainingSeconds == 0
+    /** 1 = full, 0 = time's up. */
+    val fraction: Float get() = if (enabled) remainingSeconds / totalSeconds.toFloat() else 0f
+}
+
 /** A player as the screens show them: seat index plus name. */
 data class PlayerLabel(val index: Int, val name: String)
 

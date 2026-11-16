@@ -96,14 +96,30 @@
     <string name="sealed_body">Place the phone where everyone can see it. The Telling begins.</string>
     <string name="sealed_begin_telling">Begin the Telling</string>
 
+    <!-- The Telling -->
+    <string name="telling_title">The Telling</string>
+    <string name="telling_round">Round %1$d</string>
+    <string name="telling_begins">%1$s begins</string>
+    <string name="telling_instructions">Go clockwise around the ring. Each player says one word linked to the Truth.</string>
+    <string name="telling_a11y_order">Speaking order: %1$s</string>
+    <string name="telling_order_title">Speaking order</string>
+    <string name="telling_timer_start">Start timer</string>
+    <string name="telling_timer_pause">Pause</string>
+    <string name="telling_timer_resume">Resume</string>
+    <string name="telling_timer_again">Start again</string>
+    <string name="telling_timer_reset">Reset</string>
+    <string name="telling_time_up">Time!</string>
+    <string name="telling_begin_judgement">Begin the Judgement</string>
+    <string name="telling_another_round">Another round</string>
+
     <!-- Abandon -->
     <string name="abandon_title">Abandon the game?</string>
     <string name="abandon_body">The Truth and the Tricksters will be lost.</string>
     <string name="abandon_confirm">Abandon</string>
     <string name="abandon_keep_playing">Keep playing</string>
 
-    <!-- Until Phases 6–7 -->
-    <string name="next_phases_body">The Telling, the Judgement and the results arrive in the next phases.</string>
+    <!-- Until Phase 7 -->
+    <string name="next_phases_body">The Judgement and the results arrive in the next phase.</string>
     <string name="next_phases_end">End this game</string>
 
     <!-- Settings (built in Phase 8) -->

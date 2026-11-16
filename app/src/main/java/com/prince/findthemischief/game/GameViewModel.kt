@@ -11,7 +11,10 @@ import com.prince.findthemischief.core.data.RevealMode
 import com.prince.findthemischief.game.data.WordRepository
 import com.prince.findthemischief.game.domain.Game
 import com.prince.findthemischief.game.domain.GameSetup
+import com.prince.findthemischief.game.domain.GameState
 import com.prince.findthemischief.game.domain.MischiefEngine
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -20,6 +23,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 /**
@@ -40,6 +44,12 @@ class GameViewModel(
     /** Hold-to-reveal or tap-to-flip, from Settings. */
     val revealMode: StateFlow<RevealMode> =
         revealModes.stateIn(viewModelScope, SharingStarted.Eagerly, RevealMode.Hold)
+
+    private val _timer = MutableStateFlow(TimerUiState(setup.tellingTimer.seconds))
+
+    /** The Telling countdown. Resets at the start of every Telling round. */
+    val timer: StateFlow<TimerUiState> = _timer.asStateFlow()
+    private var timerJob: Job? = null
 
     private var game: Game? = null
 
@@ -67,6 +77,22 @@ class GameViewModel(
     fun onAnotherTellingRound() {
         move(engine::anotherTellingRound)
     }
+
+    /** Start, pause or resume the Telling timer. After time's up, starts it again from full. */
+    fun onToggleTimer() {
+        val t = _timer.value
+        when {
+            !t.enabled || game?.state !is GameState.Telling -> return
+            t.running -> pauseTimer()
+            t.finished -> {
+                _timer.value = TimerUiState(t.totalSeconds)
+                startTimer()
+            }
+            else -> startTimer()
+        }
+    }
+
+    fun onResetTimer() = resetTimer()
 
     fun onBeginJudgement() {
         move(engine::beginJudgement)
@@ -98,8 +124,33 @@ class GameViewModel(
         val next = transition(current)
         if (next == current) return false
         game = next
+        // A new Telling round (or leaving the Telling) always starts the timer afresh.
+        if (next.state != current.state) resetTimer()
         _uiState.value = next.toUiState()
         return true
+    }
+
+    private fun startTimer() {
+        timerJob?.cancel()
+        _timer.update { it.copy(running = true) }
+        timerJob = viewModelScope.launch {
+            while (_timer.value.remainingSeconds > 0) {
+                delay(1_000)
+                _timer.update { it.copy(remainingSeconds = it.remainingSeconds - 1) }
+            }
+            _timer.update { it.copy(running = false) }
+            feedback.timeUp()
+        }
+    }
+
+    private fun pauseTimer() {
+        timerJob?.cancel()
+        _timer.update { it.copy(running = false) }
+    }
+
+    private fun resetTimer() {
+        timerJob?.cancel()
+        _timer.value = TimerUiState(setup.tellingTimer.seconds)
     }
 
     companion object {

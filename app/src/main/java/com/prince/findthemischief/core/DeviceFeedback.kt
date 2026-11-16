@@ -20,4 +20,9 @@ class DeviceFeedback(
         haptics.tick()
         sounds.play(Sound.RevealGlow)
     }
+
+    override fun timeUp() {
+        haptics.passBuzz()
+        sounds.play(Sound.TimerEnd)
+    }
 }

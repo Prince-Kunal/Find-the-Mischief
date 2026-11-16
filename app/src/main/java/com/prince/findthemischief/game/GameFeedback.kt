@@ -11,10 +11,14 @@ interface GameFeedback {
     /** A player's card glowed open for the first time. */
     fun cardRevealed()
 
+    /** The Telling timer reached zero. */
+    fun timeUp()
+
     companion object {
         val None: GameFeedback = object : GameFeedback {
             override fun phonePassed() = Unit
             override fun cardRevealed() = Unit
+            override fun timeUp() = Unit
         }
     }
 }

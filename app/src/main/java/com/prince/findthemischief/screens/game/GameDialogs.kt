@@ -49,7 +49,7 @@ fun AbandonDialog(onAbandon: () -> Unit, onKeepPlaying: () -> Unit) {
     )
 }
 
-/** Stand-in for the Telling, Judgement and results until Phases 6 and 7 build them. */
+/** Stand-in for the Judgement and results until Phase 7 builds them. */
 @Composable
 fun NextPhasesScreen(onEndGame: () -> Unit) {
     MischiefBackground {
